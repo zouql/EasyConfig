@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <PackageProjectUrl>https://github.com/zouql/EasyConfig</PackageProjectUrl>
+    <Authors />
+    <Company />
+    <Product />
+    <Description>基于EasyConfig的移植版，支持跨平台读写ini配置文件。</Description>
+    <PackageLicenseUrl>https://github.com/zouql/EasyConfig/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>发扬.NET开源精神</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard1.6\EasyConfig.NetStandard.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.6\EasyConfig.NetStandard.xml</DocumentationFile>
+  </PropertyGroup>
+
+</Project>
