@@ -95,7 +95,7 @@ namespace EasyConfig.NetStandard
         /// Adds a setting to the group.
         /// </summary>
         /// <param name="name">The name of the setting.</param>
-        /// <param name="value">The values of the setting.</param>
+        /// <param name="values">The values of the setting.</param>
         public void AddSetting(string name, params int[] values)
         {
             var setting = new Setting(name);
@@ -109,7 +109,7 @@ namespace EasyConfig.NetStandard
         /// Adds a setting to the group.
         /// </summary>
         /// <param name="name">The name of the setting.</param>
-        /// <param name="value">The values of the setting.</param>
+        /// <param name="values">The values of the setting.</param>
         public void AddSetting(string name, params float[] values)
         {
             var setting = new Setting(name);
@@ -123,7 +123,7 @@ namespace EasyConfig.NetStandard
         /// Adds a setting to the group.
         /// </summary>
         /// <param name="name">The name of the setting.</param>
-        /// <param name="value">The values of the setting.</param>
+        /// <param name="values">The values of the setting.</param>
         public void AddSetting(string name, params bool[] values)
         {
             var setting = new Setting(name);
@@ -137,7 +137,7 @@ namespace EasyConfig.NetStandard
         /// Adds a setting to the group.
         /// </summary>
         /// <param name="name">The name of the setting.</param>
-        /// <param name="value">The values of the setting.</param>
+        /// <param name="values">The values of the setting.</param>
         public void AddSetting(string name, params string[] values)
         {
             var setting = new Setting(name);
