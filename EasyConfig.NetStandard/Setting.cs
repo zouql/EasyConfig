@@ -165,6 +165,42 @@ namespace EasyConfig.NetStandard
         }
 
         /// <summary>
+        /// Get Value as T
+        /// </summary>
+        /// <typeparam name="T">value type</typeparam>
+        /// <returns></returns>
+        public T GetValueAs<T>()
+        {
+            try
+            {
+                return (T)Convert.ChangeType(RawValue, typeof(T));
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
+        }
+
+        /// <summary>
+        /// Get array Value as T[]
+        /// </summary>
+        /// <typeparam name="T">array value type</typeparam>
+        /// <returns></returns>
+        public T[] GetValuesAs<T>()
+        {
+            var parts = RawValue.Split(',');
+
+            var valueParts = new T[parts.Length];
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                valueParts[i] = (T)Convert.ChangeType(parts[i], typeof(T));
+            }
+
+            return valueParts;
+        }
+
+        /// <summary>
         /// Sets the value of the setting.
         /// </summary>
         /// <param name="value">The new value to store.</param>
