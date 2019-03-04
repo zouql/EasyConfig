@@ -197,13 +197,13 @@ namespace EasyConfig.NetStandard
         /// <param name="value">The new value to store.</param>
         public void SetValue(string value)
         {
-            RawValue = assertStringQuotes(value);
+            RawValue = AssertStringQuotes(value);
         }
 
         /// <summary>
         /// Sets the value of the setting.
         /// </summary>
-        /// <param name="value">The new values to store.</param>
+        /// <param name="values">The new values to store.</param>
         public void SetValue(params int[] values)
         {
             var builder = new StringBuilder();
@@ -224,7 +224,7 @@ namespace EasyConfig.NetStandard
         /// <summary>
         /// Sets the value of the setting.
         /// </summary>
-        /// <param name="value">The new values to store.</param>
+        /// <param name="values">The new values to store.</param>
         public void SetValue(params float[] values)
         {
             var builder = new StringBuilder();
@@ -245,7 +245,7 @@ namespace EasyConfig.NetStandard
         /// <summary>
         /// Sets the value of the setting.
         /// </summary>
-        /// <param name="value">The new values to store.</param>
+        /// <param name="values">The new values to store.</param>
         public void SetValue(params bool[] values)
         {
             var builder = new StringBuilder();
@@ -266,14 +266,14 @@ namespace EasyConfig.NetStandard
         /// <summary>
         /// Sets the value of the setting.
         /// </summary>
-        /// <param name="value">The new values to store.</param>
+        /// <param name="values">The new values to store.</param>
         public void SetValue(params string[] values)
         {
             var builder = new StringBuilder();
 
             for (var i = 0; i < values.Length; i++)
             {
-                builder.Append(assertStringQuotes(values[i]));
+                builder.Append(AssertStringQuotes(values[i]));
 
                 if (i < values.Length - 1)
                 {
@@ -284,7 +284,7 @@ namespace EasyConfig.NetStandard
             RawValue = builder.ToString();
         }
 
-        private static string assertStringQuotes(string value)
+        private static string AssertStringQuotes(string value)
         {
             // make sure we have our surrounding quotations
             if (!value.StartsWith("\""))
