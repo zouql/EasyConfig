@@ -9,6 +9,7 @@
     <Description>基于EasyConfig的移植版，支持跨平台读写ini配置文件。</Description>
     <PackageLicenseUrl>https://github.com/zouql/EasyConfig/blob/master/LICENSE</PackageLicenseUrl>
     <PackageReleaseNotes>发扬.NET开源精神</PackageReleaseNotes>
+    <Version>1.0.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
