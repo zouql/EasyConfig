@@ -33,5 +33,46 @@ namespace Test.NetStandard
 
             Assert.IsTrue(list.Count > 0 && File.Exists("TestConfig2.ini"));
         }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var configFile = new ConfigFile("Test.ini");
+
+            var a = configFile.ToObject<Model>();
+
+            Assert.IsTrue(configFile != null);
+        }
+        
+        public class Model
+        {
+            public VideoModel Video { get; set; }
+            
+            public LevelModel Level { get; set; }
+
+            public class VideoModel
+            {
+                public bool? Fullscreen { get; set; }
+
+                public int? Width { get; set; }
+
+                public int? Height { get; set; }
+                
+                public IEnumerable<int?> Ints { get; set; }
+
+                public IEnumerable<double?> Doubles { get; set; }
+            }
+
+            public class LevelModel
+            {
+                public int? Foo { get; set; }
+
+                public int? Bar { get; set; }
+
+                public IEnumerable<string> Names { get; set; }
+
+                public IEnumerable<bool> Booleans { get; set; }
+            }
+        }
     }
 }
