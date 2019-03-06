@@ -28,9 +28,10 @@ namespace EasyConfig.NetStandard
         /// Loads a configuration file.
         /// </summary>
         /// <param name="file">The filename where the configuration file can be found.</param>
-        public ConfigFile(string file)
+        /// <param name="encoding">Encoding</param>
+        public ConfigFile(string file, Encoding encoding = null)
         {
-            Load(file);
+            Load(file, encoding);
         }
 
         /// <summary>
@@ -74,11 +75,12 @@ namespace EasyConfig.NetStandard
         /// Loads the configuration from a file.
         /// </summary>
         /// <param name="file">The file from which to load the configuration.</param>
-        public void Load(string file)
+        /// <param name="encoding">Encoding</param>
+        public void Load(string file, Encoding encoding = null)
         {
             using (var stream = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
-                Load(stream);
+                Load(stream, encoding);
             }
         }
 
@@ -86,7 +88,8 @@ namespace EasyConfig.NetStandard
         /// Loads the configuration from a stream.
         /// </summary>
         /// <param name="stream">The stream from which to read the configuration.</param>
-        public void Load(Stream stream)
+        /// <param name="encoding"></param>
+        public void Load(Stream stream, Encoding encoding = null)
         {
             // track line numbers for exceptions
             var lineNumber = 0;
@@ -99,7 +102,7 @@ namespace EasyConfig.NetStandard
 
             var settings = default(List<Setting>);
 
-            using (var reader = new StreamReader(stream))
+            using (var reader = new StreamReader(stream, encoding ?? Encoding.Default))
             {
                 while (!reader.EndOfStream)
                 {

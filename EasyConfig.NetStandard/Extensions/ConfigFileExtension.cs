@@ -21,6 +21,11 @@
 
             foreach (var item in obj.GetType().GetProperties())
             {
+                if (!configFile.SettingGroups.ContainsKey(item.Name))
+                {
+                    continue;
+                }
+
                 if (item.GetValue(obj, null) == null)
                 {
                     item.SetValue(obj, Activator.CreateInstance(item.PropertyType), null);
@@ -145,7 +150,7 @@
                 {
                     if (new[] { typeof(string) }.Contains(property.PropertyType))
                     {
-                        value = setting.RawValue.ToString();
+                        value = setting.RawValue.Replace("\"", string.Empty);
                     }
                     else if (new[] { typeof(bool), typeof(bool?) }.Contains(property.PropertyType))
                     {
