@@ -39,9 +39,9 @@ namespace Test.NetStandard
         {
             var configFile = new ConfigFile("Test.ini");
 
-            var a = configFile.ToObject<Model>();
+            var abc = configFile.ToObject<Model>();
 
-            Assert.IsTrue(configFile != null);
+            Assert.IsTrue(abc != null);
         }
         
         public class Model
@@ -58,9 +58,11 @@ namespace Test.NetStandard
 
                 public int? Height { get; set; }
                 
-                public IEnumerable<int?> Ints { get; set; }
+                public int?[] Ints { get; set; }
 
-                public IEnumerable<double?> Doubles { get; set; }
+                public double?[] Doubles { get; set; }
+
+                public string[] BankPaymentlimits { get; set; }
             }
 
             public class LevelModel
@@ -69,9 +71,9 @@ namespace Test.NetStandard
 
                 public int? Bar { get; set; }
 
-                public IEnumerable<string> Names { get; set; }
+                public string[] Names { get; set; }
 
-                public IEnumerable<bool> Booleans { get; set; }
+                public bool[] Booleans { get; set; }
             }
         }
     }

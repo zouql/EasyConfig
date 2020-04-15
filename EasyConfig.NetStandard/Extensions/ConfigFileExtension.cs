@@ -26,22 +26,22 @@
                     continue;
                 }
 
-                if (item.GetValue(obj, null) == null)
+                if (item.GetValue(obj, default) == default)
                 {
-                    item.SetValue(obj, Activator.CreateInstance(item.PropertyType), null);
+                    item.SetValue(obj, Activator.CreateInstance(item.PropertyType), default);
                 }
 
-                var settings = configFile.SettingGroups[item.Name].Settings.Select(m => m.Value).AsEnumerable();
+                var settings = configFile.SettingGroups[item.Name].Settings.Select(m => m.Value).ToArray();
 
                 var propertyObj = GetObject(item.PropertyType, settings);
 
-                item.SetValue(obj, propertyObj, null);
+                item.SetValue(obj, propertyObj, default);
             }
 
             return obj;
         }
 
-        private static object GetObject(Type objType, IEnumerable<Setting> settings)
+        private static object GetObject(Type objType, Setting[] settings)
         {
             var properties = objType.GetProperties();
 
@@ -52,101 +52,106 @@
                 var property = properties.SingleOrDefault(m => m.Name == setting.Name);
 
                 // 未知属性直接跳过
-                if (property == null)
+                if (property == default)
                 {
                     continue;
                 }
 
                 var value = default(object);
 
-                if (setting.IsArray)
+                if (property.PropertyType.IsArray)
                 {
                     var array = setting.RawValue.Split(',');
 
-                    if (new[] { typeof(IEnumerable<string>) }.Contains(property.PropertyType))
+                    if (new[] { typeof(string[]) }.Contains(property.PropertyType))
                     {
-                        value = array.Select(m => m.Replace("\"", string.Empty)).AsEnumerable();
+                        if (setting.RawValue.Contains("\",\"")) 
+                        {
+                            array = setting.RawValue.Split(new[] { "\",\"" }, StringSplitOptions.None);
+                        }
+
+                        value = array.Select(m => m.Replace("\"", string.Empty)).ToArray();
                     }
-                    else if (new[] { typeof(IEnumerable<bool>), typeof(IEnumerable<bool?>) }.Contains(property.PropertyType))
+                    else if (new[] { typeof(bool[]), typeof(bool?[]) }.Contains(property.PropertyType))
                     {
                         var vals = array.Select(m => m.ToBool());
 
-                        if (property.PropertyType == typeof(IEnumerable<bool>))
+                        if (property.PropertyType == typeof(bool[]))
                         {
-                            value = vals.Select(m => m.GetValueOrDefault()).AsEnumerable();
+                            value = vals.Select(m => m.GetValueOrDefault()).ToArray();
                         }
                         else
                         {
-                            value = vals.AsEnumerable();
+                            value = vals.ToArray();
                         }
                     }
-                    else if (new[] { typeof(IEnumerable<int>), typeof(IEnumerable<int?>) }.Contains(property.PropertyType))
+                    else if (new[] { typeof(int[]), typeof(int?[]) }.Contains(property.PropertyType))
                     {
                         var vals = array.Select(m => m.ToInt());
 
-                        if (property.PropertyType == typeof(IEnumerable<int>))
+                        if (property.PropertyType == typeof(int[]))
                         {
-                            value = vals.Select(m => m.GetValueOrDefault()).AsEnumerable();
+                            value = vals.Select(m => m.GetValueOrDefault()).ToArray();
                         }
                         else
                         {
-                            value = vals.AsEnumerable();
+                            value = vals.ToArray();
                         }
                     }
-                    else if (new[] { typeof(IEnumerable<float>), typeof(IEnumerable<float?>) }.Contains(property.PropertyType))
+                    else if (new[] { typeof(float[]), typeof(float?[]) }.Contains(property.PropertyType))
                     {
                         var vals = array.Select(m => m.ToFloat());
 
-                        if (property.PropertyType == typeof(IEnumerable<float>))
+                        if (property.PropertyType == typeof(float[]))
                         {
-                            value = vals.Select(m => m.GetValueOrDefault()).AsEnumerable();
+                            value = vals.Select(m => m.GetValueOrDefault()).ToArray();
                         }
                         else
                         {
-                            value = vals.AsEnumerable();
+                            value = vals.ToArray();
                         }
                     }
-                    else if (new[] { typeof(IEnumerable<double>), typeof(IEnumerable<double?>) }.Contains(property.PropertyType))
+                    else if (new[] { typeof(double[]), typeof(double?[]) }.Contains(property.PropertyType))
                     {
                         var vals = array.Select(m => m.ToDouble());
 
-                        if (property.PropertyType == typeof(IEnumerable<double>))
+                        if (property.PropertyType == typeof(double[]))
                         {
-                            value = vals.Select(m => m.GetValueOrDefault()).AsEnumerable();
+                            value = vals.Select(m => m.GetValueOrDefault()).ToArray();
                         }
                         else
                         {
-                            value = vals.AsEnumerable();
+                            value = vals.ToArray();
                         }
                     }
-                    else if (new[] { typeof(IEnumerable<decimal>), typeof(IEnumerable<decimal?>) }.Contains(property.PropertyType))
+                    else if (new[] { typeof(decimal[]), typeof(decimal?[]) }.Contains(property.PropertyType))
                     {
                         var vals = array.Select(m => m.ToDecimal());
 
-                        if (property.PropertyType == typeof(IEnumerable<decimal>))
+                        if (property.PropertyType == typeof(decimal[]))
                         {
-                            value = vals.Select(m => m.GetValueOrDefault()).AsEnumerable();
+                            value = vals.Select(m => m.GetValueOrDefault()).ToArray();
                         }
                         else
                         {
-                            value = vals.AsEnumerable();
+                            value = vals.ToArray();
                         }
                     }
-                    else if (new[] { typeof(IEnumerable<DateTime>), typeof(IEnumerable<DateTime?>) }.Contains(property.PropertyType))
+                    else if (new[] { typeof(DateTime[]), typeof(DateTime?[]) }.Contains(property.PropertyType))
                     {
                         var vals = array.Select(m => m.ToDateTime());
 
-                        if (property.PropertyType == typeof(IEnumerable<DateTime>))
+                        if (property.PropertyType == typeof(DateTime[]))
                         {
-                            value = vals.Select(m => m.GetValueOrDefault()).AsEnumerable();
+                            value = vals.Select(m => m.GetValueOrDefault()).ToArray();
                         }
                         else
                         {
-                            value = vals.AsEnumerable();
+                            value = vals.ToArray();
                         }
                     }
                 }
-                else
+                else if(!setting.IsArray)
                 {
                     if (new[] { typeof(string) }.Contains(property.PropertyType))
                     {
@@ -190,9 +195,9 @@
                     }
                 }
 
-                if (value != null)
+                if (value != default)
                 {
-                    property.SetValue(obj, value, null);
+                    property.SetValue(obj, value, default);
                 }
             }
 
